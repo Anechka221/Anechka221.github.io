@@ -89,47 +89,64 @@ function init(){
 
 function render(){
  bDiv.innerHTML = '';
- for(var i=0;i<books.length;i++){
-  var b=books[i];
-  var card = document.createElement('div');
-  card.className = 'book';
+ books.forEach((b,i)=>{
+  const card=document.createElement('div');
+  card.className='book';
   if(b.completed){
-   card.className += ' done';
-   card.style.background = 'linear-gradient(180deg,'+b.color+','+adjust(b.color,-30)+')';
-   // Для переноса "Война и мир" и т.п. используем просто title как есть, но для длинных названий перенос по словам
-   card.innerHTML = '<span class="author">'+b.author+'</span><span class="title">'+b.title+'</span>';
-   // Делаем вертикальный текст для завершённых
-   card.style.writingMode = 'vertical-rl';
-   card.style.textOrientation = 'mixed';
-   card.style.transform = 'rotate(180deg)';
-   card.style.fontSize = '0.8rem';
-   card.style.minWidth = '40px';
-   card.style.maxWidth = '60px';
-   card.style.height = '110px';
-   card.style.padding = '8px 4px';
-   card.style.color = '#f0e0c8';
-   card.style.cursor = 'default';
+   card.className+=' done';
+   card.style.background='linear-gradient(180deg,'+b.color+','+adjust(b.color,-30)+')';
+   card.innerHTML='<span class="author">'+b.author+'</span><span class="title">'+b.title+'</span>';
+   card.style.writingMode='vertical-rl'; card.style.textOrientation='mixed'; card.style.transform='rotate(180deg)';
+   card.style.fontSize='0.8rem'; card.style.minWidth='40px'; card.style.maxWidth='60px'; card.style.height='110px';
+   card.style.padding='8px 4px'; card.style.color='#f0e0c8'; card.style.cursor='default';
   } else {
-   card.innerHTML = '<div class="author">'+b.author+'</div><div class="title">'+b.title+'</div><span class="counter">'+b.collected+'/10</span>';
-   card.dataset.bookIndex = i;
-   card.addEventListener('click', function(e){ onBook(e, parseInt(this.dataset.bookIndex)); });
+   card.innerHTML='<div class="author">'+b.author+'</div><div class="title">'+b.title+'</div><span class="counter">'+b.collected+'/10</span>';
+   card.dataset.bookIndex=i;
+   card.addEventListener('click',function(e){onBook(e,parseInt(this.dataset.bookIndex));});
   }
   bDiv.appendChild(card);
- }
- var visible = pool.filter(function(c){return !c.placed;});
- remainSpan.textContent = visible.length;
+ });
+ const visible=pool.filter(c=>!c.placed);
+ remain.textContent=visible.length;
  cDiv.innerHTML = '';
- for(var k=0;k<visible.length;k++){
-  var ch = visible[k];
-  var el = document.createElement('div');
-  el.className = 'char';
-  if(selected === ch.id) el.className += ' selected';
-  el.textContent = ch.name;
-  el.dataset.charId = ch.id;
-  el.addEventListener('click', function(e){ onChar(this.dataset.charId); });
+ // ==== КУЧА ВМЕСТО СЕТКИ ====
+ const containerWidth = cDiv.offsetWidth || 600;
+ const containerHeight = 240;
+ visible.forEach(ch => {
+  const el=document.createElement('div');
+  el.className='char';
+  if(selected===ch.id) el.className+=' selected';
+  el.textContent=ch.name;
+  el.dataset.charId=ch.id;
+  el.addEventListener('click',function(){onChar(this.dataset.charId);});
+  // Случайное позиционирование
+  const x = 5 + Math.random() * 75; // % от ширины
+  const y = 5 + Math.random() * 70; // % от высоты
+  const rot = (Math.random() - 0.5) * 20; // градусы
+  const z = Math.floor(Math.random() * 100) + 1;
+  el.style.position = 'absolute';
+  el.style.left = x + '%';
+  el.style.top = y + '%';
+  el.style.transform = 'rotate(' + rot + 'deg)';
+  el.style.zIndex = z;
+  el.style.width = (50 + Math.random() * 40) + '%';
+  el.style.maxWidth = '300px';
+  el.style.background = '#f2ead9';
+  el.style.border = '1px solid #cbaf84';
+  el.style.borderRadius = '8px';
+  el.style.padding = '8px 4px';
+  el.style.textAlign = 'center';
+  el.style.cursor = 'pointer';
+  el.style.fontSize = '.9rem';
+  el.style.wordBreak = 'break-word';
+  el.style.transition = 'all 0.2s';
   cDiv.appendChild(el);
- }
+ });
+ // делаем контейнер относительным для абсолютного позиционирования
+ cDiv.style.position = 'relative';
+ cDiv.style.height = '240px';
 }
+
 
 
 function adjust(hex,amt){
