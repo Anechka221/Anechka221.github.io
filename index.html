@@ -22,7 +22,6 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
 .chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px;position:relative;height:240px}
 .char{background:#f2ead9;border:1px solid #cbaf84;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font-size:.9rem;word-break:break-word;transition:all 0.2s;position:absolute}
 .char.selected{background:#d9f0b0 !important;border:3px solid #6a9e3a !important;transform:scale(1.05) !important;z-index:999 !important}
-.char.hidden{display:none}
 .final{display:none;margin-top:20px;text-align:center;border-top:2px solid #b5956a;padding-top:20px}
 .final.show{display:block}
 .final h2{font-size:3rem;color:#7a2e2e}
@@ -98,10 +97,10 @@ function render(){
   el.textContent=ch.name;
   el.dataset.charId=ch.id;
   el.addEventListener('click',function(){onChar(this.dataset.charId);});
-  const x=5+Math.random()*75, y=5+Ma
+  const x=5+Math.random()*75, y=5+Math.random()*70, rot=(Math.r
 
 
-th.random()*70, rot=(Math.random()-0.5)*20, z=Math.floor(Math.random()*100)+1;
+andom()-0.5)*20, z=Math.floor(Math.random()*100)+1;
   el.style.left=x+'%'; el.style.top=y+'%'; el.style.transform='rotate('+rot+'deg)'; el.style.zIndex=z;
   el.style.width=(50+Math.random()*40)+'%'; el.style.maxWidth='300px';
   cDiv.appendChild(el);
