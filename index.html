@@ -31,14 +31,7 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
   background-image: linear-gradient(135deg, #7d5b36, #553a1f);
   border-left: 3px solid #3f2c16;
 }
-.book.done .title{
-  font-size: 0.85rem;
-  word-break: break-word;
-  text-align: center;
-  line-height: 1.2;
-  color: #f0e0c8;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
+.book.done .title{font-size:0.85rem;word-break:keep-all;text-align:center;line-height:1.2;color:#f0e0c8;text-shadow:0 1px 2px rgba(0,0,0,0.5)}
 .book .author{font-size:.7rem;text-transform:uppercase;color:#4c351b}
 .book.done .author{color:#f0e0c8}
 .book .title{font-size:1rem;font-weight:600}
@@ -128,7 +121,7 @@ function render(){
   if(b.completed){
    card.className+=' done';
    card.style.background='linear-gradient(180deg,'+b.color+','+adjust(b.color,-30)+')';
-   card.innerHTML='<span class="title">'+b.title+'</span>';
+   card.innerHTML='<span class="title">'+b.title.replace(/\n/g, '<br>')+'</span>';
    card.style.writingMode='vertical-rl'; card.style.textOrientation='mixed'; card.style.transform='rotate(180deg)';
    card.style.fontSize='0.8rem'; card.style.minWidth='40px'; card.style.maxWidth='60px'; card.style.height='110px';
    card.style.padding='8px 4px'; card.style.color='#f0e0c8'; card.style.cursor='default';
