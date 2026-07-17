@@ -18,7 +18,12 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
 .book .counter{background:#b39162;color:#fff;padding:0 12px;border-radius:40px;display:inline-block;margin-top:6px}
 .chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
 .char{background:#f2ead9;border:1px solid #cbaf84;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font-size:.9rem;word-break:break-word}
-.char.selected{background:#d9f0b0;border:3px solid #6a9e3a}
+.char.selected {
+  background: #d9f0b0 !important;
+  border: 3px solid #6a9e3a !important;
+  transform: scale(1.05) !important;
+  z-index: 999 !important;
+}
 .char.hidden{display:none}
 .final{display:none;margin-top:20px;text-align:center;border-top:2px solid #b5956a;padding-top:20px}
 .final.show{display:block}
