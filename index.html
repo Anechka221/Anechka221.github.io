@@ -18,16 +18,16 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
 .book.done .author{color:#f0e0c8}
 .book .title{font-size:1rem;font-weight:600}
 .book .counter{background:#b39162;color:#fff;padding:0 12px;border-radius:40px;display:inline-block;margin-top:6px}
-.chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px;position:relative;height:240px}
-.char{background:#f2ead9;border:1px solid #cbaf84;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font-size:.9rem;word-break:break-word;transition:all 0.2s;position:absolute}
-.char.selected{background:#d9f0b0 !important;border:3px solid #6a9e3a !important;transform:scale(1.05) !important;z-index:999 !important}
+.chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
+.char{background:#f2ead9;border:1px solid #cbaf84;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font-size:.9rem;word-break:break-word;transition:all 0.2s}
+.char.selected{background:#d9f0b0;border:3px solid #6a9e3a}
 .error-flash{animation:flashRed 0.6s}
 @keyframes flashRed{0%{background:#e8dac2}30%{background:#ff2222;border-color:#a00;box-shadow:0 0 30px #ff0000}100%{background:#e8dac2}}
 .final{display:none;margin-top:20px;text-align:center;border-top:2px solid #b5956a;padding-top:20px}
 .final.show{display:block}
 .final h2{font-size:3rem;color:#7a2e2e}
 .final .stats-final{font-size:1.2rem;color:#4f3b23;margin-top:8px}
-@media(max-width:600px){.chars-grid{height:180px}.book{min-width:80px;padding:8px}.header h1{font-size:1.2rem}.instruction{font-size:.8rem}}
+@media(max-width:600px){.header h1{font-size:1.2rem}.instruction{font-size:.8rem}}
 </style>
 </head>
 <body>
@@ -36,7 +36,7 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
   <h1>📚 Книжная полка</h1>
   <div class="stats"><span>⏱ <span id="timer">0</span>с</span><span>❌ <span id="errors">0</span></span></div>
 </div>
-<div class="instruction">🖱️ Кликни по карточке персонажа → затем по книге. Собери всех героев!</div>
+<div class="instruction">🖱️ Кликни по карточке персонажа, затем по книге. Собери всех героев!</div>
 <div id="books" class="books"></div>
 <div id="chars" class="chars-grid"></div>
 <div style="text-align:center;margin-top:8px;font-size:.9rem;color:#5a4028">📄 осталось: <span id="remain">0</span></div>
@@ -98,21 +98,16 @@ function render(){
  const visible=pool.filter(c=>!c.placed);
  remain.textContent=visible.length;
  cDiv.innerHTML='';
- cDiv.style.position='relative';
- cDiv.style.height='240px';
- visible.forEach
-
-
-(ch=>{
+ visible.forEach(ch=>{
   const el=document.createElement('div');
   el.className='char';
   if(selected===ch.id) el.classList.add('selected');
   el.textContent=ch.name;
   el.dataset.charId=ch.id;
-  el.addEventListener('click',function(){onChar(this.dataset.charId);});
-  const x=5+Math.random()*75, y=5+Math.random()*70, rot=(Math.random()-0.5)*20, z=Math.floor(Math.random()*100)+1;
-  el.style.left=x+'%'; el.style.top=y+'%'; el.style.transform='rotate('+rot+'deg)'; el.style.zIndex=z;
-  el.style.width=(50+Math.random()*40)+'%'; el.style.maxWidth='300px';
+  el.addEventListener('click',function(){onChar(this.dataset.charId);
+
+
+});
   cDiv.appendChild(el);
  });
 }
