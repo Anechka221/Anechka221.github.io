@@ -9,19 +9,20 @@ body{background:#d8c5a1;display:flex;justify-content:center;padding:20px}
 .container{max-width:1200px;width:100%;background:rgba(218,195,155,0.3);border-radius:48px;padding:24px}
 h1{text-align:center;color:#3e2e1a;margin-bottom:10px;font-size:2rem}
 .stats{background:#c9b086;padding:8px 24px;border-radius:60px;display:flex;justify-content:space-between;margin:10px 0}
+.stats span{font-weight:700;color:#2d1c0a}
 .instruction{text-align:center;font-size:1rem;color:#3e2e1a;background:rgba(200,180,150,0.2);padding:8px;border-radius:40px;margin:10px 0}
 .books{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
-.book{flex:0 1 auto;min-width:100px;max-width:200px;padding:12px;background:linear-gradient(145deg,#f0e4ce,#dccdb2);border:1px solid #b5956a;border-radius:12px;text-align:center;cursor:pointer;box-shadow:0 4px 0 #b5956a}
+.book{flex:0 1 auto;min-width:100px;max-width:200px;padding:12px;background:linear-gradient(145deg,#f0e4ce,#dccdb2);border:1px solid #b5956a;border-radius:12px;text-align:center;cursor:pointer;box-shadow:0 4px 0 #b5956a;transition:all 0.2s}
 .book .author{font-size:.7rem;text-transform:uppercase;color:#4c351b;display:block}
 .book .title{font-size:1rem;font-weight:700;word-break:break-word;line-height:1.2}
-.book .counter{background:#b39162;color:#fff;padding:2px 10px;border-radius:40px;display:inline-block;margin-top:4px;font-size:.8rem}
+.book .counter{background:#b39162;color:#fff;padding:2px 10px;border-radius:40px;display:inline-block;margin-top:6px;font-size:.8rem}
 .book.done{background:#6b3f2a;border-color:#2d1a0a;color:#f0e0c8;cursor:default;box-shadow:0 4px 0 #2d1a0a;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);font-size:.8rem;padding:8px 4px;min-width:40px;max-width:60px;height:110px;display:flex;align-items:center;justify-content:center;border-radius:2px 6px 6px 2px;background-image:linear-gradient(135deg, #7d5b36, #553a1f);border-left:3px solid #3f2c16}
 .book.done .title{font-size:.8rem;font-weight:700;color:#f0e0c8;text-shadow:0 1px 2px rgba(0,0,0,0.5);word-break:break-word;line-height:1.2}
 .chars{position:relative;height:300px;margin:20px 0}
 .char{position:absolute;background:#f2ead9;border:1px solid #cbaf84;border-radius:8px;padding:8px 6px;text-align:center;cursor:pointer;font-size:.85rem;word-break:break-word;box-shadow:0 2px 4px rgba(0,0,0,0.1);transition:all 0.2s}
 .char.selected{background:#d9f0b0 !important;border:3px solid #6a9e3a !important;transform:scale(1.05) !important;z-index:999 !important}
 .error-flash{animation:flashRed 0.6s}
-@keyframes flashRed{30%{background:#ff2222;box-shadow:0 0 30px #ff0000}}
+@keyframes flashRed{0%{background:#e8dac2}30%{background:#ff2222;border-color:#a00;box-shadow:0 0 30px #ff0000}100%{background:#e8dac2}}
 .final{display:none;text-align:center;padding:30px 0}
 .final.show{display:block}
 .final h2{font-size:3.5rem;color:#7a2e2e;margin-bottom:10px}
@@ -32,25 +33,25 @@ h1{text-align:center;color:#3e2e1a;margin-bottom:10px;font-size:2rem}
 <body>
 <div class="container">
 <h1>📚 Книжная полка</h1>
-<div class="stats"><span>⏱ <span id="timer">0</span>с</span><span>❌ <span id="errors">0</span></span></div>
+<div class="stats"><span>❌ Ошибок: <span id="errors">0</span></span></div>
 <div class="instruction">Кликни по карточке персонажа, затем по книге. Собери всех героев!</div>
 <div id="books" class="books"></div>
 <div id="chars" class="chars"></div>
 <div style="text-align:center;margin:10px 0;font-size:1rem">Осталось: <span id="remain">0</span></div>
-<div id="final" class="final"><h2>🏆 Поздравляю!</h2><p>⏱ <span id="finalTime">0</span> сек · ❌ <span id="finalErrors">0</span> ошибок</p></div>
+<div id="final" class="final"><h2>🏆 Поздравляю!</h2><p>❌ Ошибок: <span id="finalErrors">0</span></p></div>
 </div>
 <script>
 const booksData = [
-{author:"Д.И.Фонвизин", title:"Недоросль", chars:["Митрофанушка Простаков","госпожа Простакова","Тарас Скотинин","Стародум","Софья","Цыфиркин","Кутейкин","Вральман","Правдин","Милон"]},
-{author:"А.С.Грибоедов", title:"Горе от ума", chars:["Павел Афанасьевич Фамусов","Александр Андреевич Чацкий","Алексей Степанович Молчалин","Сергей Сергеевич Скалозуб","Софья Фамусова","Лизанька","Платон Михайлович Горич","князь и княгиня Тугоуховские","Репетилов","Хлёстова"]},
-{author:"А.С.Пушкин", title:"Евгений Онегин", chars:["Евгений Онегин","Владимир Ленский","Татьяна Ларина","Ольга Ларина","Прасковья Ларина","Автор","князь N","няня Филипьевна","Зарецкий","княжна Алина"]},
-{author:"А.С.Пушкин", title:"Капитанская дочка", chars:["Пётр Гринёв","Савельич","Алексей Швабрин","Емельян Пугачёв","Екатерина II","Маша Миронова","Иван Кузьмич Миронов","Василиса Егоровна","Андрей Карлович Р.","Зурин"]},
-{author:"М.Ю.Лермонтов", title:"Герой нашего времени", chars:["Григорий Александрович Печорин","Максим Максимыч","Бэла","Грушницкий","Вернер","Вулич","Казбич","Вера","Азамат","Мери Лиговская"]},
-{author:"Н.В.Гоголь", title:"Ревизор", chars:["Иван Александрович Хлестаков","Осип","Антон Антонович Сквозник-Дмухановский","Аммос Фёдорович Ляпкин-Тяпкин","Артемий Филиппович Земляника","Лука Лукич Хлопов","Христиан Иванович Гибнер","Бобчинский и Добчинский","Марья Антоновна","Анна Андреевна"]},
-{author:"Н.В.Гоголь", title:"Мёртвые души", chars:["Павел Иванович Чичиков","Манилов","Фемистоклюс","Алкид","Настасья Петровна Коробочка","Ноздрёв","Михаил Семёнович Собакевич","Степан Плюшкин","Селифан","капитан Копейкин"]},
-{author:"И.С.Тургенев", title:"Отцы и дети", chars:["Евгений Базаров","Аркадий Кирсанов","Павел Петрович Кирсанов","Николай Петрович Кирсанов","Фенечка","Анна Сергеевна Одинцова","Катя Локтева","Евдоксия Кукшина","Виктор Ситников","княгиня Р."]},
-{author:"И.А.Гончаров", title:"Обломов", chars:["Илья Ильич Обломов","Захар","Андрей Иванович Штольц","Ольга Ильинская","Агафья Матвеевна Пшеницына","Мухояров","Тарантьев","Судьбинский","барон фон Лангваген","Анисья"]},
-{author:"Л.Н.Толстой", title:"Война и мир", chars:["Андрей Болконский","Пьер Безухов","Наташа Ростова","Анна Павловна Шерер","Марья Дмитриевна Ахросимова","Василий Денисов","Анатоль Курагин","Элен Курагина","Платон Каратаев","капитан Тушин"]}
+{author:"Д. И. Фонвизин", title:"Недоросль", chars:["Митрофанушка Простаков","госпожа Простакова","Тарас Скотинин","Стародум","Софья","Цыфиркин","Кутейкин","Вральман","Правдин","Милон"]},
+{author:"А. С. Грибоедов", title:"Горе от ума", chars:["Павел Афанасьевич Фамусов","Александр Андреевич Чацкий","Алексей Степанович Молчалин","Сергей Сергеевич Скалозуб","Софья Фамусова","Лизанька","Платон Михайлович Горич","князь и княгиня Тугоуховские","Репетилов","Хлёстова"]},
+{author:"А. С. Пушкин", title:"Евгений Онегин", chars:["Евгений Онегин","Владимир Ленский","Татьяна Ларина","Ольга Ларина","Прасковья Ларина","Автор","князь N","няня Филипьевна","Зарецкий","княжна Алина"]},
+{author:"А. С. Пушкин", title:"Капитанская дочка", chars:["Пётр Гринёв","Савельич","Алексей Швабрин","Емельян Пугачёв","Екатерина II","Маша Миронова","Иван Кузьмич Миронов","Василиса Егоровна","Андрей Карлович Р.","Зурин"]},
+{author:"М. Ю. Лермонтов", title:"Герой нашего времени", chars:["Григорий Александрович Печорин","Максим Максимыч","Бэла","Грушницкий","Вернер","Вулич","Казбич","Вера","Азамат","Мери Лиговская"]},
+{author:"Н. В. Гоголь", title:"Ревизор", chars:["Иван Александрович Хлестаков","Осип","Антон Антонович Сквозник-Дмухановский","Аммос Фёдорович Ляпкин-Тяпкин","Артемий Филиппович Земляника","Лука Лукич Хлопов","Христиан Иванович Гибнер","Бобчинский и Добчинский","Марья Антоновна","Анна Андреевна"]},
+{author:"Н. В. Гоголь", title:"Мёртвые души", chars:["Павел Иванович Чичиков","Манилов","Фемистоклюс","Алкид","Настасья Петровна Коробочка","Ноздрёв","Михаил Семёнович Собакевич","Степан Плюшкин","Селифан","капитан Копейкин"]},
+{author:"И. С. Тургенев", title:"Отцы и дети", chars:["Евгений Базаров","Аркадий Кирсанов","Павел Петрович Кирсанов","Николай Петрович Кирсанов","Фенечка","Анна Сергеевна Одинцова","Катя Локтева","Евдоксия Кукшина","Виктор Ситников","княгиня Р."]},
+{author:"И. А. Гончаров", title:"Обломов", chars:["Илья Ильич Обломов","Захар","Андрей Иванович Штольц","Ольга Ильинская","Агафья Матвеевна Пшеницына","Мухояров","Тарантьев","Судьбинский","барон фон Лангваген","Анисья"]},
+{author:"Л. Н. Толстой", title:"Война и мир", chars:["Андрей Болконский","Пьер Безухов","Наташа Ростова","Анна Павловна Шерер","Марья Дмитриевна Ахросимова","Василий Денисов","Анатоль Курагин","Элен Курагина","Платон Каратаев","капитан Тушин"]}
 ];
 const colors = ["#b22222","#2e8b57","#d2691e","#1e6fa0","#8b4513","#6a5acd","#b8860b","#cd5c5c","#2f4f4f","#8b008b"];
 let state = {
@@ -58,28 +59,22 @@ let state = {
   pool: [],
   selected: null,
   errors: 0,
-  seconds: 0,
-  timer: null,
-  started: false,
   finished: false
 };
 const els = {
   books: document.getElementById('books'),
   chars: document.getElementById('chars'),
   remain: document.getElementById('remain'),
-  timer: document.getElementById('timer'),
   errors: document.getElementById('errors'),
   final: document.getElementById('final'),
-  finalTime: document.getElementById('finalTime'),
   finalErrors: document.getElementById('finalErrors')
 };
 
 function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}}
 function init(){
-  if(state.timer) clearInterval(state.timer);
-  state = {...state, selected:null, errors:0, seconds:0, started:false, finished:false, timer:null};
+  state = {...state, selected:null, errors:0, finished:false};
   els.final.className='final';
-  els.timer.textContent='0'; els.errors.textContent='0';
+  els.errors.textContent='0';
   state.pool=[];
   state.books.forEach((b,i)=>b.chars.forEach(n=>state.pool.push({id:Math.random().toString(36).substr(2,6), bookIdx:i, name:n, placed:false})));
   shuffle(state.pool);
@@ -104,7 +99,6 @@ function render(){
   let visible=state.pool.filter(c=>!c.placed);
   els.remain.textContent=visible.length;
   els.chars.innerHTML='';
-  let containerWidth=els.chars.offsetWidth||800;
   visible.forEach(ch=>{
     let el=document.createElement('div');
     el.className='char'+(state.selected===ch.id?' selected':'');
@@ -114,9 +108,7 @@ function render(){
     let x=5+Math.random()*75, y=5+Math.random()*75, rot=(Math.random()-0.5)*20, z=Math.floor(Math.random()*100)+1;
     el.style.left=x+'%'; el.style.top=y+'%'; el.style.transform='rotate('+rot+'deg)'; el.style.zIndex=z;
     el.style.width=(50+Math.random()*40)+'%'; el.style.maxWidth='280px';
-    els.chars.
-
-appendChild(el);
+    els.chars.appendChild(el);
   });
   if(visible.length===0 && !state.finished) finish();
 }
@@ -126,7 +118,6 @@ function onChar(e){
   let id=e.currentTarget.dataset.id;
   let ch=state.pool.find(c=>c.id===id);
   if(!ch || ch.placed) return;
-  if(!state.started){ state.started=true; state.timer=setInterval(()=>{state.seconds++; els.timer.textContent=state.seconds;},1000);}
   if(state.selected){ let prev=document.querySelector('.char[data-id="'+state.selected+'"]'); if(prev) prev.classList.remove('selected');}
   state.selected=id; e.currentTarget.classList.add('selected');
 }
@@ -149,7 +140,7 @@ function onBook(e){
   }
 }
 function clearSel(){ if(state.selected){ let prev=document.querySelector('.char[data-id="'+state.selected+'"]'); if(prev) prev.classList.remove('selected'); state.selected=null; } }
-function finish(){ state.finished=true; if(state.timer) clearInterval(state.timer); els.finalTime.textContent=state.seconds; els.finalErrors.textContent=state.errors; els.final.className='final show'; }
+function finish(){ state.finished=true; els.finalErrors.textContent=state.errors; els.final.className='final show'; }
 document.querySelector('h1').addEventListener('dblclick',init);
 init();
 </script>
